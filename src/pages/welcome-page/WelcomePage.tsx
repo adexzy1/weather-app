@@ -2,7 +2,11 @@ import style from './welcomePage.module.css';
 import { gsap, Power3 } from 'gsap';
 import { useEffect } from 'react';
 
-const WelcomePage = () => {
+interface Props {
+  isLoading: boolean;
+}
+
+const WelcomePage = ({ isLoading }: Props) => {
   useEffect(() => {
     const tl = gsap.timeline({
       defaults: {
@@ -15,7 +19,7 @@ const WelcomePage = () => {
   }, []);
 
   return (
-    <main className={style.container}>
+    <main className={`${style.container} ${!isLoading && style.hide}`}>
       <p className={style.welcome_text}>
         <span>
           <strong className={style.color_text}>x</strong>

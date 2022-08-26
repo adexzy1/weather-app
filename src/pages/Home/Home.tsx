@@ -6,7 +6,10 @@ import Weather from '../../components/weather/Weather';
 import useFechWeatherOnClick from '../../hooks/useFetchWeatherOnClick';
 import style from './home.module.css';
 
-const Home = () => {
+interface Props {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Home = ({ setIsLoading }: Props) => {
   const [data, setData] = useState<WeatherData>();
   const [longitude, setLongitude] = useState<number>();
   const [latitude, setLatitude] = useState<number>();
@@ -23,6 +26,7 @@ const Home = () => {
     });
 
     const fethWetherData = async () => {
+      setIsLoading(true);
       try {
         const weatherDataUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
 
@@ -35,8 +39,16 @@ const Home = () => {
         setData(weatherData);
 
         console.log(weatherData);
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       } catch (err) {
         console.log(err);
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       }
     };
 
@@ -45,7 +57,7 @@ const Home = () => {
     }
 
     return () => controller.abort();
-  }, [latitude, longitude]);
+  }, [latitude, longitude, setIsLoading]);
   // custom hook
   const { fethWetherData } = useFechWeatherOnClick();
 
