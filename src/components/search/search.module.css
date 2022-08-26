@@ -1,0 +1,70 @@
+.input_wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 2;
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+  padding-inline: var(--outter-padding);
+  padding-top: 2rem;
+  overflow: hidden;
+  transform: scale(0);
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
+.icon_wrapper {
+  color: var(--primary-color);
+  display: flex;
+  justify-content: right;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+.icon_wrapper > svg {
+  background-color: var(--accent);
+  display: inline-block;
+  height: 5rem;
+  width: 6rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.input_wrapper > input {
+  display: block;
+  width: 100%;
+  margin-block: 10rem;
+  padding-block: 2rem;
+  border: none;
+  text-align: center;
+  font-size: 1.7rem;
+  color: var(--accent);
+  outline: none;
+  border-radius: 1rem;
+}
+
+.input_wrapper > input::placeholder {
+  color: var(--accent);
+}
+
+.input_wrapper > button {
+  display: block;
+  border: none;
+  margin-inline: auto;
+  padding: 1rem;
+  cursor: pointer;
+  padding-block: 2rem;
+  border-radius: 1rem;
+  font-size: 1.7rem;
+  background-color: var(--accent);
+  color: var(--primary-color);
+}
+
+.show {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}

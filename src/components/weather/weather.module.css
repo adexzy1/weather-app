@@ -1,0 +1,103 @@
+.weather_wrapper {
+  color: var(--primary-color);
+  margin-block: 5rem;
+  margin-inline: var(--outter-padding);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 6%;
+  flex-wrap: wrap;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(1rem);
+  padding-block: 1.5rem;
+}
+
+.weather_degree {
+  position: relative;
+}
+
+.weather_degree {
+  font-size: 5rem;
+  font-weight: 400;
+}
+
+.weather_degree > sup {
+  font-size: 1.7rem;
+  position: absolute;
+  top: 1rem;
+  font-weight: 400;
+}
+
+.weather_degree > sup > span {
+  position: relative;
+  font-size: 1.5rem;
+  top: -0.5rem;
+}
+
+.weather_details {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.weather_details > h3 {
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+.weather_info {
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weather_info > svg {
+  font-size: 3rem;
+}
+
+.weather_more_details {
+  margin-top: 5rem;
+  padding-inline: 2rem;
+  color: var(--primary-color);
+  max-width: 70rem;
+  margin: auto;
+}
+
+.weather_more_details > h5 {
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: 400;
+  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+  border-bottom: 0.2rem solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.weather_more_details > div {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding-inline: 1.5rem;
+}
+
+.weather_more_details > div:last-child {
+  border-bottom: 0.2rem solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 3rem;
+}
+
+@media only screen and (min-width: 412px) {
+  .weather_degree {
+    font-size: 8rem;
+  }
+
+  .weather_degree > sup {
+    top: 2rem;
+  }
+
+  .weather_wrapper {
+    column-gap: 10%;
+  }
+}
