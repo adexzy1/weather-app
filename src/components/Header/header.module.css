@@ -1,0 +1,31 @@
+.header_container {
+  display: flex;
+  color: var(--primary-color);
+  justify-content: space-between;
+  padding-inline: var(--outter-padding);
+  margin-block: 3rem;
+}
+
+.city {
+  color: var(--primary-color);
+  font-size: 2rem;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem 4rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+}
+
+.icon_wrapper {
+  color: var(--primary-color);
+  background-color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  font-size: 3rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}

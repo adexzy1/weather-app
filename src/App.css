@@ -7,10 +7,19 @@
 }
 
 :root {
-  --accent: #e2560d;
-  --primary-color: #62483b;
+  --accent: #6238d6;
+  --primary-color: #fcfcfd;
+  --secondary-color: #bbb9c3;
+  --outter-padding: 5%;
+}
+
+html {
+  font-size: 62.5%;
 }
 
 body {
   scroll-behavior: smooth;
+  font-family: 'Poppins', sans-serif;
+  background-color: rgb(15, 8, 44);
+  overflow-x: hidden;
 }
