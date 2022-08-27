@@ -1,9 +1,14 @@
-const useFechWeatherOnClick = () => {
+import fetchWeatherData from '../util/fetchWeatherData';
+
+type SetIsLoading = React.Dispatch<React.SetStateAction<boolean>>;
+
+const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
   const controller = new AbortController();
+  let key = '395853dd6e6712dfd9e8ad5b8ff83856';
 
-  const fethWetherData = async (state: string, country: string) => {
-    let key = '395853dd6e6712dfd9e8ad5b8ff83856';
-
+  const fetchCoordinates = async (state: string, country: string) => {
+    // set loadin to true when form is submitted
+    setIsloading(true);
     const url = `http://api.openweathermap.org/geo/1.0/direct?q=${state},${country}&limit=5&appid=${key}`;
 
     try {
@@ -11,26 +16,29 @@ const useFechWeatherOnClick = () => {
         signal: controller.signal,
       });
 
-      const data = await response.json();
+      const corordinates = await response.json();
 
-      const latitude = data[0].lat;
-      const longitude = data[0].lon;
+      if (corordinates.length > 0) {
+        const latitude = corordinates[0].lat;
+        const longitude = corordinates[0].lon;
 
-      const weatherDataUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
+        const data = await fetchWeatherData(key, longitude, latitude);
 
-      const weatherResponse = await fetch(weatherDataUrl, {
-        signal: controller.signal,
-      });
+        // set loading to false after 1sec and request is successful
+        setTimeout(() => {
+          setIsloading(false);
+        }, 1000);
 
-      const weatherData = await weatherResponse.json();
-
-      return weatherData;
-    } catch (err) {
-      console.log(err);
+        return data;
+      } else {
+        return 'City not found, please enter a different City';
+      }
+    } catch (error) {
+      return error;
     }
   };
 
-  return { fethWetherData };
+  return { fetchCoordinates };
 };
 
-export default useFechWeatherOnClick;
+export default useFetchWeatherOnClick;

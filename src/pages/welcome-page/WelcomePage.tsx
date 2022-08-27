@@ -29,6 +29,10 @@ const WelcomePage = ({ isLoading }: Props) => {
       <p className={style.tagline}>
         <span>Check you weather Today!</span>
       </p>
+
+      <p>
+        <span className={style.loading}></span>
+      </p>
     </main>
   );
 };

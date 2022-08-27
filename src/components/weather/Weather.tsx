@@ -10,27 +10,32 @@ const Weather = ({ data }: Props) => {
   // convert weather degreee data from kelvin to fahrenheit
   const fahrenheit = Math.floor((data?.main.temp - 273.15) * 1.8 + 32);
 
+  // format the date and time as string
+  const now = new Date();
+  const time = now.toTimeString().slice(0, 5);
+  const date = now.toDateString();
+
   return (
     <div className={style.weather_container}>
       <div className={style.weather_wrapper}>
         <h2 className={style.weather_degree}>
-          {fahrenheit}
+          {!isNaN(fahrenheit) ? fahrenheit : 0}
           <sup>
             <span>0</span>F
           </sup>
         </h2>
 
         <div className={style.weather_details}>
-          <h3>{data?.name}</h3>
+          <h3>{data?.name ? data.name : 'City'}</h3>
           <div>
-            <span>06:09-</span>
-            <span>Monday, 9 Sep'19</span>
+            <span>{time} - </span>
+            <span>{date}</span>
           </div>
         </div>
 
         <div className={style.weather_info}>
           <IoMdCloudy />
-          <p>{data?.weather[0].main}</p>
+          <p>{data?.weather[0].main ? data.weather[0].main : 'cloudy'}</p>
         </div>
       </div>
 
@@ -39,17 +44,17 @@ const Weather = ({ data }: Props) => {
 
         <div>
           <p>Cloudy</p>
-          <p>{data?.clouds.all}%</p>
+          <p>{data?.clouds.all ? data.clouds.all : 0}%</p>
         </div>
 
         <div>
           <p>Humidity</p>
-          <p>{data?.main.humidity}%</p>
+          <p>{data?.main.humidity ? data.main.humidity : 0}%</p>
         </div>
 
         <div>
           <p>Wind</p>
-          <p>{data?.wind.speed} km/h</p>
+          <p>{data?.wind.speed ? data.wind.speed : 0} km/h</p>
         </div>
       </div>
     </div>
