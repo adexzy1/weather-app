@@ -3,19 +3,23 @@ import { WeatherData } from '../../../Models/model';
 import Clock from '../../components/clock/Clock';
 import Header from '../../components/Header/Header';
 import Weather from '../../components/weather/Weather';
-import useFechWeatherOnClick from '../../hooks/useFetchWeatherOnClick';
+import useFetchWeatherOnClick from '../../hooks/useFetchWeatherOnClick';
+import fetchWeatherData from '../../util/fetchWeatherData';
 import style from './home.module.css';
 
 interface Props {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const Home = ({ setIsLoading }: Props) => {
   const [data, setData] = useState<WeatherData>();
-  const [longitude, setLongitude] = useState<number>();
+  const [longitude, setLongitude] = useState<number | undefined>();
   const [latitude, setLatitude] = useState<number>();
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+
+  // cunstom hook
 
   useEffect(() => {
-    const controller = new AbortController();
     const key = '395853dd6e6712dfd9e8ad5b8ff83856';
 
     // get users corordinates
@@ -25,51 +29,49 @@ const Home = ({ setIsLoading }: Props) => {
       setLongitude(longitude);
     });
 
-    const fethWetherData = async () => {
-      setIsLoading(true);
-      try {
-        const weatherDataUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
+    const fetchData = async () => {
+      const response = await fetchWeatherData(key, longitude, latitude);
 
-        const weatherResponse = await fetch(weatherDataUrl, {
-          signal: controller.signal,
-        });
+      setData(response);
 
-        const weatherData = await weatherResponse.json();
-
-        setData(weatherData);
-
-        console.log(weatherData);
-
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
-      } catch (err) {
-        console.log(err);
-
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
-      }
+      // set loading to false after 1sec and request is successful
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+      setData((prev) => (response ? response : prev));
     };
 
     if (latitude && longitude) {
-      fethWetherData();
+      fetchData();
     }
-
-    return () => controller.abort();
   }, [latitude, longitude, setIsLoading]);
+
   // custom hook
-  const { fethWetherData } = useFechWeatherOnClick();
+  const { fetchCoordinates } = useFetchWeatherOnClick(setIsLoading);
 
   const handleFetch = async (searchTerm: string | undefined) => {
     if (searchTerm) {
-      const response = await fethWetherData(searchTerm!, 'NG');
-      // console.log(response);
+      const response = await fetchCoordinates(searchTerm!, 'NG');
+
+      // hide search box
+      setShowSearch(false);
+
+      // set loading to false after 1sec and request is successful
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+      setData((prev) => (response ? response : prev));
     }
   };
+
   return (
     <div className={style.container}>
-      <Header handleFetch={handleFetch} data={data!} />
+      <Header
+        handleFetch={handleFetch}
+        data={data!}
+        setShowSearch={setShowSearch}
+        showSearch={showSearch}
+      />
       <Clock />
       <Weather data={data!} />
     </div>

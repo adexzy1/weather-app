@@ -4,7 +4,7 @@ import Home from './pages/Home/Home';
 import WelcomePage from './pages/welcome-page/WelcomePage';
 
 function App() {
-  const [isLoading, setIsloading] = useState<boolean>(true);
+  const [isLoading, setIsloading] = useState<boolean>(false);
 
   return (
     <div className="App">

@@ -88,7 +88,7 @@
   padding-bottom: 3rem;
 }
 
-@media only screen and (min-width: 412px) {
+@media only screen and (min-width: 768px) {
   .weather_degree {
     font-size: 8rem;
   }
