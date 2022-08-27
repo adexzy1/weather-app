@@ -9,7 +9,7 @@ const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
   const fetchCoordinates = async (state: string, country: string) => {
     // set loadin to true when form is submitted
     setIsloading(true);
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${state},${country}&limit=5&appid=${key}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${state},${country}&limit=5&appid=${key}`;
 
     try {
       const response = await fetch(url, {
