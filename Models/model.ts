@@ -16,4 +16,6 @@ export interface WeatherData {
       icon: string;
     }
   ];
+  timezone: number;
+  cod: number;
 }

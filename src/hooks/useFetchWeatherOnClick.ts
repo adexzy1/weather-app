@@ -6,10 +6,10 @@ const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
   const controller = new AbortController();
   let key = '395853dd6e6712dfd9e8ad5b8ff83856';
 
-  const fetchCoordinates = async (state: string, country: string) => {
+  const fetchCoordinates = async (city: string) => {
     // set loadin to true when form is submitted
     setIsloading(true);
-    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${state},${country}&limit=5&appid=${key}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`;
 
     try {
       const response = await fetch(url, {
@@ -31,7 +31,7 @@ const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
 
         return data;
       } else {
-        return 'City not found, please enter a different City';
+        return `${city} is not a valid City`;
       }
     } catch (error) {
       return error;

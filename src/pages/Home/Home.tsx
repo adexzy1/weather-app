@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { WeatherData } from '../../../Models/model';
+import Alert from '../../components/alert/Alert';
 import Clock from '../../components/clock/Clock';
 import Header from '../../components/Header/Header';
 import Weather from '../../components/weather/Weather';
 import useFetchWeatherOnClick from '../../hooks/useFetchWeatherOnClick';
 import fetchWeatherData from '../../util/fetchWeatherData';
+import showError from '../../util/showError';
 import style from './home.module.css';
 
 interface Props {
@@ -13,59 +15,84 @@ interface Props {
 
 const Home = ({ setIsLoading }: Props) => {
   const [data, setData] = useState<WeatherData>();
-  const [longitude, setLongitude] = useState<number | undefined>();
-  const [latitude, setLatitude] = useState<number>();
   const [showSearch, setShowSearch] = useState<boolean>(false);
-
-  // cunstom hook
-
-  useEffect(() => {
-    const key = '395853dd6e6712dfd9e8ad5b8ff83856';
-
-    // get users corordinates
-    window.navigator.geolocation.getCurrentPosition((a) => {
-      const { latitude, longitude } = a.coords;
-      setLatitude(latitude);
-      setLongitude(longitude);
-    });
-
-    const fetchData = async () => {
-      const response = await fetchWeatherData(key, longitude, latitude);
-
-      setData(response);
-
-      // set loading to false after 1sec and request is successful
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-      setData((prev) => (response ? response : prev));
-    };
-
-    if (latitude && longitude) {
-      fetchData();
-    }
-  }, [latitude, longitude, setIsLoading]);
+  const [error, setError] = useState<string>('');
 
   // custom hook
   const { fetchCoordinates } = useFetchWeatherOnClick(setIsLoading);
 
+  console.log(data?.timezone);
+
+  useEffect(() => {
+    // function to check if browser allows geolocation
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        enableHighAccuracy: true,
+      });
+    } else {
+      alert('Your browser does not support geolocation');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // callback funtion if geolocation is available
+  function onSuccess(data: GeolocationPosition) {
+    const { longitude, latitude } = data.coords;
+    fetchData(longitude, latitude);
+  }
+
+  // callback funtion if geaolocation if an error occured
+  function onError(error: GeolocationPositionError) {
+    // remove the loading screen
+    setIsLoading(false);
+
+    // function to show error alert
+    showError(error.message, setError);
+
+    return;
+  }
+
+  // function to fetch data if geolocation data is available
+  const fetchData = async (longitude: number, latitude: number) => {
+    const key = '395853dd6e6712dfd9e8ad5b8ff83856';
+    const response = await fetchWeatherData(key, longitude, latitude);
+
+    setData(response);
+
+    // set loading to false after 1sec and request is successful
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    setData((prev) => (response ? response : prev));
+  };
+
+  // function to fetch data when a city is searched
   const handleFetch = async (searchTerm: string | undefined) => {
     if (searchTerm) {
-      const response = await fetchCoordinates(searchTerm!, 'NG');
+      const response = await fetchCoordinates(searchTerm!);
 
-      // hide search box
-      setShowSearch(false);
+      if (typeof response === 'object') {
+        // hide search box
+        setShowSearch(false);
 
-      // set loading to false after 1sec and request is successful
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-      setData((prev) => (response ? response : prev));
+        setData((prev) => (response ? response : prev));
+
+        // set loading to false after 1sec and request is successful
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+        showError(response, setError);
+      }
     }
   };
 
   return (
     <div className={style.container}>
+      <Alert error={error} />
       <Header
         handleFetch={handleFetch}
         data={data!}
