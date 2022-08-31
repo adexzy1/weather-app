@@ -12,7 +12,7 @@ export interface WeatherData {
   };
   weather: [
     {
-      main: string;
+      description: string;
       icon: string;
     }
   ];

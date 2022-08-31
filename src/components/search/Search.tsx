@@ -19,7 +19,9 @@ const Search = ({ handleCilck, showSearch, handleFetch }: Props) => {
       <div className={style.icon_wrapper} onClick={handleCilck}>
         <MdCancel />
       </div>
+
       <input
+        name="city"
         type="text"
         placeholder="Enter city"
         value={searchTerm}

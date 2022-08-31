@@ -16,6 +16,14 @@ const Weather = ({ data }: Props) => {
   });
 
   const cityName = data?.zoneName.split('/')[1];
+  const icon = data ? (
+    <img
+      src={`http://openweathermap.org/img/wn/${data?.weather[0].icon}.png`}
+      alt="icon"
+    />
+  ) : (
+    <IoMdCloudy />
+  );
 
   return (
     <div className={style.weather_container}>
@@ -35,8 +43,12 @@ const Weather = ({ data }: Props) => {
         </div>
 
         <div className={style.weather_info}>
-          <IoMdCloudy />
-          <p>{data?.weather[0].main ? data.weather[0].main : 'cloudy'}</p>
+          {icon}
+          <p>
+            {data?.weather[0].description
+              ? data.weather[0].description
+              : 'scattered clouds '}
+          </p>
         </div>
       </div>
 
