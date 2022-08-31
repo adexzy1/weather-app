@@ -8,7 +8,7 @@ const fetchWeatherData = async (
   try {
     const weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
 
-    const timeZoneAPi = `http://api.timezonedb.com/v2.1/get-time-zone?key=ICTVL85OSSC1&format=json&by=position&lat=${latitude}&lng=${longitude}`;
+    const timeZoneAPi = `https://api.timezonedb.com/v2.1/get-time-zone?key=ICTVL85OSSC1&format=json&by=position&lat=${latitude}&lng=${longitude}`;
 
     // fetch time zone
     const timezoneResponse = await fetch(timeZoneAPi, {
