@@ -4,6 +4,7 @@ type SetIsLoading = React.Dispatch<React.SetStateAction<boolean>>;
 
 const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
   const controller = new AbortController();
+  // openwether map api key
   let key = '395853dd6e6712dfd9e8ad5b8ff83856';
 
   const fetchCoordinates = async (city: string) => {
@@ -22,6 +23,7 @@ const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
         const latitude = corordinates[0].lat;
         const longitude = corordinates[0].lon;
 
+        // util function to fetch weather data by longitude and latitude
         const data = await fetchWeatherData(key, longitude, latitude);
 
         // set loading to false after 1sec and request is successful

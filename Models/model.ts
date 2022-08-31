@@ -18,4 +18,5 @@ export interface WeatherData {
   ];
   timezone: number;
   cod: number;
+  zoneName: string;
 }

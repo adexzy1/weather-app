@@ -1,25 +1,33 @@
 import { useEffect, useState } from 'react';
+import { WeatherData } from '../../../Models/model';
 import clockFace from '../../assets/clock-face-r.png';
 import style from './clock.module.css';
-const Clock = () => {
+import setTime from '../../util/setTime';
+
+interface Props {
+  data: WeatherData | undefined;
+}
+
+const Clock = ({ data }: Props) => {
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [hour, setHour] = useState<number>(0);
 
   useEffect(() => {
     const timeInterval = 6;
-    const setTime = () => {
-      const date = new Date();
-      const seconds = date.getSeconds();
-      const minutes = date.getMinutes();
-      const hour = date.getHours();
 
-      setSeconds(seconds * timeInterval);
-      setMinutes(minutes * timeInterval + seconds / 10);
-      setHour(hour * 30 + minutes / 2);
-    };
-    setInterval(setTime, 1000);
-  }, [seconds]);
+    const Interval = setInterval(() => {
+      if (data) {
+        const { hour, seconds, minutes } = setTime(data);
+
+        setSeconds(seconds * timeInterval);
+        setMinutes(minutes * timeInterval + seconds / 10);
+        setHour(hour * 30 + minutes / 2);
+      }
+    }, 1000);
+
+    return () => clearInterval(Interval);
+  }, [data]);
 
   return (
     <div className={style.clock_wrapper}>

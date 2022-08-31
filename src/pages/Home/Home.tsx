@@ -21,8 +21,6 @@ const Home = ({ setIsLoading }: Props) => {
   // custom hook
   const { fetchCoordinates } = useFetchWeatherOnClick(setIsLoading);
 
-  console.log(data?.timezone);
-
   useEffect(() => {
     // function to check if browser allows geolocation
     if (navigator.geolocation) {
@@ -36,9 +34,18 @@ const Home = ({ setIsLoading }: Props) => {
   }, []);
 
   // callback funtion if geolocation is available
-  function onSuccess(data: GeolocationPosition) {
+  async function onSuccess(data: GeolocationPosition) {
     const { longitude, latitude } = data.coords;
-    fetchData(longitude, latitude);
+    const key = '395853dd6e6712dfd9e8ad5b8ff83856';
+    const response = await fetchWeatherData(key, longitude, latitude);
+
+    setData(response);
+
+    // set loading to false after 1sec and request is successful
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    setData((prev) => (response ? response : prev));
   }
 
   // callback funtion if geaolocation if an error occured
@@ -52,26 +59,18 @@ const Home = ({ setIsLoading }: Props) => {
     return;
   }
 
-  // function to fetch data if geolocation data is available
-  const fetchData = async (longitude: number, latitude: number) => {
-    const key = '395853dd6e6712dfd9e8ad5b8ff83856';
-    const response = await fetchWeatherData(key, longitude, latitude);
-
-    setData(response);
-
-    // set loading to false after 1sec and request is successful
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    setData((prev) => (response ? response : prev));
-  };
-
   // function to fetch data when a city is searched
-  const handleFetch = async (searchTerm: string | undefined) => {
+  const handleFetch = async (
+    searchTerm: string,
+    setSearchTerm: React.Dispatch<React.SetStateAction<string>>
+  ) => {
     if (searchTerm) {
       const response = await fetchCoordinates(searchTerm!);
 
       if (typeof response === 'object') {
+        // clear input box
+        setSearchTerm(' ');
+
         // hide search box
         setShowSearch(false);
 
@@ -99,7 +98,7 @@ const Home = ({ setIsLoading }: Props) => {
         setShowSearch={setShowSearch}
         showSearch={showSearch}
       />
-      <Clock />
+      <Clock data={data} />
       <Weather data={data!} />
     </div>
   );

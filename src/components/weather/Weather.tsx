@@ -11,9 +11,9 @@ const Weather = ({ data }: Props) => {
   const fahrenheit = Math.floor((data?.main.temp - 273.15) * 1.8 + 32);
 
   // format the date and time as string
-  const now = new Date();
-  const time = now.toTimeString().slice(0, 5);
-  const date = now.toDateString();
+  const date = new Date().toLocaleDateString('en-US', {
+    timeZone: data?.zoneName,
+  });
 
   return (
     <div className={style.weather_container}>
@@ -28,7 +28,6 @@ const Weather = ({ data }: Props) => {
         <div className={style.weather_details}>
           <h3>{data?.name ? data.name : 'City'}</h3>
           <div>
-            <span>{time} - </span>
             <span>{date}</span>
           </div>
         </div>

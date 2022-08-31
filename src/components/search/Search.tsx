@@ -5,11 +5,14 @@ import style from './search.module.css';
 interface Props {
   handleCilck: () => void;
   showSearch: boolean;
-  handleFetch: (e: string | undefined) => void;
+  handleFetch: (
+    e: string,
+    setSearchTerm: React.Dispatch<React.SetStateAction<string>>
+  ) => void;
 }
 
 const Search = ({ handleCilck, showSearch, handleFetch }: Props) => {
-  const [searchTerm, setSearchTerm] = useState<string>();
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <div className={`${style.input_wrapper} ${showSearch && style.show}`}>
@@ -19,9 +22,12 @@ const Search = ({ handleCilck, showSearch, handleFetch }: Props) => {
       <input
         type="text"
         placeholder="Enter city"
+        value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button onClick={() => handleFetch(searchTerm)}>Get Weather Info</button>
+      <button onClick={() => handleFetch(searchTerm, setSearchTerm)}>
+        Get Weather Info
+      </button>
     </div>
   );
 };

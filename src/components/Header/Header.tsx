@@ -4,7 +4,10 @@ import Search from '../search/Search';
 import style from './header.module.css';
 
 interface Props {
-  handleFetch: (e: string | undefined) => void;
+  handleFetch: (
+    e: string,
+    setSearchTerm: React.Dispatch<React.SetStateAction<string>>
+  ) => void;
   data: WeatherData;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
   showSearch: boolean;
