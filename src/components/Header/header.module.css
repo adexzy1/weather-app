@@ -4,6 +4,7 @@
   justify-content: space-between;
   padding-inline: var(--outter-padding);
   margin-block: 3rem;
+  gap: 2rem;
 }
 
 .city {

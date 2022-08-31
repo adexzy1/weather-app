@@ -15,6 +15,8 @@ const Weather = ({ data }: Props) => {
     timeZone: data?.zoneName,
   });
 
+  const cityName = data?.zoneName.split('/')[1];
+
   return (
     <div className={style.weather_container}>
       <div className={style.weather_wrapper}>
@@ -26,7 +28,7 @@ const Weather = ({ data }: Props) => {
         </h2>
 
         <div className={style.weather_details}>
-          <h3>{data?.name ? data.name : 'City'}</h3>
+          <h3>{cityName ? cityName : 'City'}</h3>
           <div>
             <span>{date}</span>
           </div>
