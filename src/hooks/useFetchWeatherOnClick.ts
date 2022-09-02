@@ -67,9 +67,11 @@ const useFetchWeatherOnClick = () => {
       } else {
         // function to show error alert
         showError(`${inputRef.current?.value} is not a valid City`);
+        dispatch({ type: 'isLoading', payLoad: false });
       }
     } catch (error: any) {
       showError(error.message);
+      dispatch({ type: 'isLoading', payLoad: false });
     }
   };
 
