@@ -3,15 +3,16 @@ import { WeatherData } from '../../../Models/model';
 import clockFace from '../../assets/clock-face-r.png';
 import style from './clock.module.css';
 import setTime from '../../util/setTime';
+import useSelector from '../../hooks/useSelector';
 
-interface Props {
-  data: WeatherData | undefined;
-}
-
-const Clock = ({ data }: Props) => {
+const Clock = () => {
+  // local state
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [hour, setHour] = useState<number>(0);
+
+  // custom hook for global state (react-context)
+  const data: WeatherData = useSelector((state) => state.data);
 
   useEffect(() => {
     const timeInterval = 6;

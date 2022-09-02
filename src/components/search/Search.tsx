@@ -1,22 +1,30 @@
 import { useState } from 'react';
 import { MdCancel } from 'react-icons/md';
+import useDispatch from '../../hooks/useDispatch';
+import useSelector from '../../hooks/useSelector';
 import style from './search.module.css';
 
 interface Props {
-  handleCilck: () => void;
-  showSearch: boolean;
   handleFetch: (
     e: string,
     setSearchTerm: React.Dispatch<React.SetStateAction<string>>
   ) => void;
 }
 
-const Search = ({ handleCilck, showSearch, handleFetch }: Props) => {
+const Search = ({ handleFetch }: Props) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  // custom Hooks
+  const showSearchBox: boolean = useSelector((state) => state.showSearchBox);
+  const dispatch = useDispatch();
+
+  const handleHideSearchBox = () => {
+    dispatch({ type: 'showSearchBox', payLoad: false });
+  };
+
   return (
-    <div className={`${style.input_wrapper} ${showSearch && style.show}`}>
-      <div className={style.icon_wrapper} onClick={handleCilck}>
+    <div className={`${style.input_wrapper} ${showSearchBox && style.show}`}>
+      <div className={style.icon_wrapper} onClick={handleHideSearchBox}>
         <MdCancel />
       </div>
 

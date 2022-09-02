@@ -1,12 +1,12 @@
 import { IoMdCloudy } from 'react-icons/io';
 import { WeatherData } from '../../../Models/model';
+import useSelector from '../../hooks/useSelector';
 import style from './weather.module.css';
 
-interface Props {
-  data: WeatherData;
-}
+const Weather = () => {
+  // custom hook for global state (react-context)
+  const data: WeatherData = useSelector((state) => state.data);
 
-const Weather = ({ data }: Props) => {
   // convert weather degreee data from kelvin to fahrenheit
   const fahrenheit = Math.floor((data?.main.temp - 273.15) * 1.8 + 32);
 

@@ -1,10 +1,8 @@
+import useSelector from '../../hooks/useSelector';
 import style from './alert.module.css';
 
-interface Props {
-  error: string | undefined;
-}
-
-const Alert = ({ error }: Props) => {
+const Alert = () => {
+  const error = useSelector((state) => state.error);
   return (
     <div className={`${style.error} ${error && style.show}`}>
       <p>{error}</p>
