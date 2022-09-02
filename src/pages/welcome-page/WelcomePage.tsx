@@ -1,12 +1,12 @@
 import style from './welcomePage.module.css';
 import { gsap, Power3 } from 'gsap';
 import { useEffect } from 'react';
+import useSelector from '../../hooks/useSelector';
 
-interface Props {
-  isLoading: boolean;
-}
+const WelcomePage = () => {
+  // custom hook
+  const isLoading = useSelector((state) => state.isLoading);
 
-const WelcomePage = ({ isLoading }: Props) => {
   useEffect(() => {
     const tl = gsap.timeline({
       defaults: {

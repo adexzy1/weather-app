@@ -18,6 +18,11 @@ const reducer = (state: InitialState, action: ACTIONTYPE) => {
         ...state,
         error: action.payLoad,
       };
+    case 'isLoading':
+      return {
+        ...state,
+        isLoading: action.payLoad,
+      };
     default:
       return state;
   }

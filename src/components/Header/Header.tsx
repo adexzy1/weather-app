@@ -5,16 +5,7 @@ import useSelector from '../../hooks/useSelector';
 import Search from '../search/Search';
 import style from './header.module.css';
 
-interface Props {
-  handleFetch: (
-    e: string,
-    setSearchTerm: React.Dispatch<React.SetStateAction<string>>
-  ) => void;
-  setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
-  showSearch: boolean;
-}
-
-const Header = ({ handleFetch, setShowSearch, showSearch }: Props) => {
+const Header = () => {
   // cutom hook for to get data from global context
   const data: WeatherData = useSelector((state) => state.data);
   const dispatch = useDispatch();
@@ -32,7 +23,7 @@ const Header = ({ handleFetch, setShowSearch, showSearch }: Props) => {
         <FiSearch />
       </div>
 
-      <Search handleFetch={handleFetch} />
+      <Search />
     </div>
   );
 };

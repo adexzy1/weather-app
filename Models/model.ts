@@ -22,10 +22,12 @@ export interface WeatherData {
 export type ACTIONTYPE =
   | { type: 'fetchData'; payLoad: WeatherData }
   | { type: 'showSearchBox'; payLoad: boolean }
-  | { type: 'error'; payLoad: string };
+  | { type: 'error'; payLoad: string }
+  | { type: 'isLoading'; payLoad: boolean };
 
 export interface InitialState {
   data: WeatherData | null;
   showSearchBox: boolean;
   error: string;
+  isLoading: boolean;
 }

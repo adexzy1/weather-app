@@ -1,18 +1,16 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { MdCancel } from 'react-icons/md';
 import useDispatch from '../../hooks/useDispatch';
+import useFetchWeatherOnClick from '../../hooks/useFetchWeatherOnClick';
 import useSelector from '../../hooks/useSelector';
 import style from './search.module.css';
 
-interface Props {
-  handleFetch: (
-    e: string,
-    setSearchTerm: React.Dispatch<React.SetStateAction<string>>
-  ) => void;
-}
+const Search = () => {
+  // input-box ref
+  const inputRef = useRef<HTMLInputElement>(null);
 
-const Search = ({ handleFetch }: Props) => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  // custom hook
+  const { fetchCoordinates } = useFetchWeatherOnClick();
 
   // custom Hooks
   const showSearchBox: boolean = useSelector((state) => state.showSearchBox);
@@ -22,22 +20,22 @@ const Search = ({ handleFetch }: Props) => {
     dispatch({ type: 'showSearchBox', payLoad: false });
   };
 
+  // function to fetch data when a city is searched
+  const handleFetch = async () => {
+    const city = inputRef.current?.value;
+    if (city) {
+      fetchCoordinates(inputRef);
+    }
+  };
+
   return (
     <div className={`${style.input_wrapper} ${showSearchBox && style.show}`}>
       <div className={style.icon_wrapper} onClick={handleHideSearchBox}>
         <MdCancel />
       </div>
 
-      <input
-        name="city"
-        type="text"
-        placeholder="Enter city"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={() => handleFetch(searchTerm, setSearchTerm)}>
-        Get Weather Info
-      </button>
+      <input ref={inputRef} name="city" type="text" placeholder="Enter city" />
+      <button onClick={handleFetch}>Get Weather Info</button>
     </div>
   );
 };

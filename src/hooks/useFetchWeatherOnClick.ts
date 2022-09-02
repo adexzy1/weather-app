@@ -1,16 +1,26 @@
 import fetchWeatherData from '../util/fetchWeatherData';
+import useDispatch from './useDispatch';
+import useShowError from './useShowError';
 
-type SetIsLoading = React.Dispatch<React.SetStateAction<boolean>>;
+const useFetchWeatherOnClick = () => {
+  // custom hook to set global state value
+  const dispatch = useDispatch();
 
-const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
+  // custom error hook to show error alert
+  const { showError } = useShowError();
+
   const controller = new AbortController();
   // openwether map api key
   let key = '395853dd6e6712dfd9e8ad5b8ff83856';
 
-  const fetchCoordinates = async (city: string) => {
-    // set loadin to true when form is submitted
-    setIsloading(true);
-    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`;
+  const fetchCoordinates = async (
+    inputRef: React.RefObject<HTMLInputElement>
+  ) => {
+    // set loading to true when form is submitted
+    dispatch({ type: 'isLoading', payLoad: true });
+
+    // API url to get coordinates
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${inputRef.current?.value}&limit=5&appid=${key}`;
 
     try {
       const response = await fetch(url, {
@@ -24,19 +34,42 @@ const useFetchWeatherOnClick = (setIsloading: SetIsLoading) => {
         const longitude = corordinates[0].lon;
 
         // util function to fetch weather data by longitude and latitude
-        const data = await fetchWeatherData(key, longitude, latitude);
+        const data = await fetchWeatherData(longitude, latitude);
 
-        // set loading to false after 1sec and request is successful
+        // show loading screen
         setTimeout(() => {
-          setIsloading(false);
+          dispatch({ type: 'isLoading', payLoad: true });
         }, 1000);
 
-        return data;
+        if (typeof data === 'object') {
+          // clear input box
+          inputRef.current!.value = '';
+
+          // hide search box
+          dispatch({ type: 'showSearchBox', payLoad: false });
+
+          // save fetched data in the global state
+          dispatch({ type: 'fetchData', payLoad: data });
+
+          // remove loading screen after 1sec if request is successful
+          setTimeout(() => {
+            dispatch({ type: 'isLoading', payLoad: false });
+          }, 1000);
+        } else {
+          // remove loading screen after 1sec if request  fails
+          setTimeout(() => {
+            dispatch({ type: 'isLoading', payLoad: false });
+          }, 1000);
+
+          // function to show error alert
+          showError(data);
+        }
       } else {
-        return `${city} is not a valid City`;
+        // function to show error alert
+        showError(`${inputRef.current?.value} is not a valid City`);
       }
-    } catch (error) {
-      return error;
+    } catch (error: any) {
+      showError(error.message);
     }
   };
 

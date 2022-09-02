@@ -6,10 +6,11 @@ interface Props {
   children: ReactElement;
 }
 
-const initialState = {
+const initialState: InitialState = {
   data: null,
   showSearchBox: false,
   error: '',
+  isLoading: true,
 };
 
 const AppContext = createContext<{
