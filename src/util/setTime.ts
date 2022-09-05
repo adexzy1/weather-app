@@ -1,7 +1,7 @@
 import { WeatherData } from '../../Models/model';
 
 const setTime = (data: WeatherData) => {
-  const zone = data?.zoneName;
+  const zone = data?.timezone;
 
   const time = new Date().toLocaleTimeString('en-US', {
     timeZone: zone,

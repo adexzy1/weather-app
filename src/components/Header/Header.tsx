@@ -14,11 +14,9 @@ const Header = () => {
     dispatch({ type: 'showSearchBox', payLoad: true });
   };
 
-  const cityName = data?.zoneName.split('/')[1];
-
   return (
     <div className={style.header_container}>
-      <p className={style.city}>{cityName ? cityName : 'City'}</p>
+      <p className={style.city}>{data?.name ? data.name : 'City'}</p>
       <div className={style.icon_wrapper} onClick={handleShowSearchBox}>
         <FiSearch />
       </div>

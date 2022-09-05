@@ -6,7 +6,7 @@ import style from './home.module.css';
 import useFetchWeatherDataOnLoad from '../../hooks/useFetchWeatherDataOnload';
 
 const Home = () => {
-  // function to fetch weather data when component mounts
+  // custom hook to fetch weather data when component mounts
   useFetchWeatherDataOnLoad();
 
   return (

@@ -3,17 +3,18 @@
   margin-block: 5rem;
   margin-inline: var(--outter-padding);
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  column-gap: 10%;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(1rem);
   padding-block: 1.5rem;
-  padding-inline: 0.5rem;
+  padding-inline: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  gap: 10%;
 }
 
 .weather_degree {
+  text-align: center;
   position: relative;
 }
 
@@ -35,18 +36,18 @@
   top: -0.5rem;
 }
 
-.weather_details {
+.weather_details_city {
   font-size: 1.2rem;
   text-align: center;
 }
 
-.weather_details > h3 {
-  font-size: 2.3rem;
+.weather_details_city > h3 {
+  font-size: 2.5rem;
   font-weight: 400;
   word-wrap: none;
 }
 
-.weather_info {
+.weather_description {
   font-size: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -56,13 +57,12 @@
   padding-bottom: 1rem;
 }
 
-.weather_info > svg {
+.weather_description > svg {
   font-size: 3rem;
   text-align: center;
 }
 
-.weather_info > p {
-  word-wrap: break-word;
+.weather_description > p {
   text-align: center;
 }
 
@@ -105,9 +105,5 @@
 
   .weather_degree > sup {
     top: 2rem;
-  }
-
-  .weather_wrapper {
-    column-gap: 10%;
   }
 }

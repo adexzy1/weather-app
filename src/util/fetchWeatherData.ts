@@ -7,15 +7,7 @@ const fetchWeatherData = async (
   let key = '395853dd6e6712dfd9e8ad5b8ff83856';
 
   try {
-    const weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
-
-    const timeZoneAPi = `https://api.timezonedb.com/v2.1/get-time-zone?key=ICTVL85OSSC1&format=json&by=position&lat=${latitude}&lng=${longitude}`;
-
-    // fetch time zone
-    const timezoneResponse = await fetch(timeZoneAPi, {
-      signal: controller.signal,
-    });
-    const timeZoneData = await timezoneResponse.json();
+    const weatherDataApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,daily,minutely,alerts&appid=${key}`;
 
     // fetch weather data
     const weatherResponse = await fetch(weatherDataApi, {
@@ -23,10 +15,7 @@ const fetchWeatherData = async (
     });
     const weatherData = await weatherResponse.json();
 
-    // spread both weather and timezone data into a single object
-    const data = { ...weatherData, ...timeZoneData };
-
-    return data;
+    return weatherData;
   } catch (err) {
     return err;
   }

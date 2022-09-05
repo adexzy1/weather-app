@@ -8,17 +8,16 @@ const Weather = () => {
   const data: WeatherData = useSelector((state) => state.data);
 
   // convert weather degreee data from kelvin to fahrenheit
-  const fahrenheit = Math.floor((data?.main.temp - 273.15) * 1.8 + 32);
+  const fahrenheit = Math.floor((data?.current.temp - 273.15) * 1.8 + 32);
 
   // format the date and time as string
   const date = new Date().toLocaleDateString('en-US', {
-    timeZone: data?.zoneName,
+    timeZone: data?.timezone,
   });
 
-  const cityName = data?.zoneName.split('/')[1];
   const icon = data ? (
     <img
-      src={`http://openweathermap.org/img/wn/${data?.weather[0].icon}.png`}
+      src={`https://openweathermap.org/img/wn/${data?.current.weather[0].icon}.png`}
       alt="icon"
     />
   ) : (
@@ -35,18 +34,18 @@ const Weather = () => {
           </sup>
         </h2>
 
-        <div className={style.weather_details}>
-          <h3>{cityName ? cityName : 'City'}</h3>
+        <div className={style.weather_details_city}>
+          <h3>{data?.country ? data.country : 'Country'}</h3>
           <div>
             <span>{date}</span>
           </div>
         </div>
 
-        <div className={style.weather_info}>
+        <div className={style.weather_description}>
           {icon}
           <p>
-            {data?.weather[0].description
-              ? data.weather[0].description
+            {data?.current.weather[0].description
+              ? data.current.weather[0].description
               : 'scattered clouds '}
           </p>
         </div>
@@ -57,17 +56,17 @@ const Weather = () => {
 
         <div>
           <p>Cloudy</p>
-          <p>{data?.clouds.all ? data.clouds.all : 0}%</p>
+          <p>{data?.current.clouds ? data.current.clouds : 0}%</p>
         </div>
 
         <div>
           <p>Humidity</p>
-          <p>{data?.main.humidity ? data.main.humidity : 0}%</p>
+          <p>{data?.current.humidity ? data.current.humidity : 0}%</p>
         </div>
 
         <div>
           <p>Wind</p>
-          <p>{data?.wind.speed ? data.wind.speed : 0} km/h</p>
+          <p>{data?.current.wind_speed ? data.current.wind_speed : 0} km/h</p>
         </div>
       </div>
     </div>

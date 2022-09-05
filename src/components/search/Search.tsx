@@ -9,22 +9,22 @@ const Search = () => {
   // input-box ref
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // custom hook
-  const { fetchCoordinates } = useFetchWeatherOnClick();
+  // custom hook to fetch data from API
+  const { fetchWeatherDataOnClick } = useFetchWeatherOnClick(inputRef);
 
-  // custom Hooks
+  // custom Hooks form global state
   const showSearchBox: boolean = useSelector((state) => state.showSearchBox);
   const dispatch = useDispatch();
 
+  // fuction to handle cancel btn
   const handleHideSearchBox = () => {
     dispatch({ type: 'showSearchBox', payLoad: false });
   };
 
   // function to fetch data when a city is searched
   const handleFetch = async () => {
-    const city = inputRef.current?.value;
-    if (city) {
-      fetchCoordinates(inputRef);
+    if (inputRef.current?.value) {
+      fetchWeatherDataOnClick();
     }
   };
 
