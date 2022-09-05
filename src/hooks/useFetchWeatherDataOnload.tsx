@@ -33,7 +33,7 @@ const useFetchWeatherDataOnLoad = () => {
     // Api key
     let key = '395853dd6e6712dfd9e8ad5b8ff83856';
     // API URL
-    const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=${1}&appid=${key}`;
+    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=${1}&appid=${key}`;
 
     //  fetch city and state name
     const res = await fetch(url);
